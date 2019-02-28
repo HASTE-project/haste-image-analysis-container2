@@ -34,7 +34,7 @@ class KendallTauInterestingnessModel:
         t_start_query = time.time()
         # TODO: only get some fields
         results = list(mongo_collection.find({
-            'substream_id': substream_id,
+            'metadata.well': metadata['well'],
             'metadata.color_channel': metadata['color_channel'],
             'metadata.imaging_point_number': metadata['imaging_point_number']
         },

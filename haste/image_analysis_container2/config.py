@@ -1,8 +1,11 @@
+import logging
+
 SOURCE_DIR = 'TODO'
 TARGET_DIR = 'TODO'
 
 HASTE_STORAGE_CLIENT_CONFIG = {
     "haste_metadata_server": {
+        # TODO: need service name
         "connection_string": "mongodb://???:?????@metadata-db-prod:27017/streams"
     },
     "log_level": "DEBUG",
@@ -25,3 +28,7 @@ STORAGE_POLICY = [(0.2, 1.0, 'move-to-my-dir')]
 WINDOW_LENGTH = 10
 
 STREAM_ID_INITIALS = 'ola-lab'
+
+POLLING_INTERVAL_SECONDS = 5
+
+LOGGING_LEVEL = logging.DEBUG

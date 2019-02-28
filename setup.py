@@ -1,9 +1,8 @@
-
 from setuptools import setup
 
-setup(name='haste-image-processor-2',
+setup(name='haste-image-analysis-container2',
       version='0.10',
-      packages=['haste.image_processor_2'],
+      packages=['haste.image_analysis_container2'],
       namespace_packages=['haste'],
       install_requires=[
           'numpy',
@@ -11,7 +10,6 @@ setup(name='haste-image-processor-2',
           'scikit-image',
           'scipy',
           'haste-storage-client'
-
       ],
       test_requires=[
           'pytest'

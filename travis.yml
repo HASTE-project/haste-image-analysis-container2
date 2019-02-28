@@ -1,0 +1,11 @@
+language: python
+
+notifications:
+  email: false
+
+before_install:
+  - docker build --no-cache=true -t "benblamey/image_analysis_container2:latest" .
+
+script:
+  - pytest
+

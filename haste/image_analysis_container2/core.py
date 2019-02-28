@@ -13,14 +13,16 @@ import numpy as np
 from skimage.feature import greycomatrix, greycoprops
 from skimage.filters import laplace
 
-from haste.image_processor_2.azn_filenames import parse_azn_file_name
-from haste.image_processor_2.fileutils import creation_date
-from haste.image_processor_2.image_analysis import extract_features
+from haste.image_analysis_container2.azn_filenames import parse_azn_file_name
+from haste.image_analysis_container2.fileutils import creation_date
+from haste.image_analysis_container2.image_analysis import extract_features
 
 
 # TODO: file listing, pause, warning.
 
 # TODO: dockerfile
+
+
 
 
 def process_files(files, source_dir, hsc):
@@ -57,7 +59,7 @@ def process_files(files, source_dir, hsc):
         t_start_image_ext = time.time()
         f['metadata']["extracted_features"] = extract_features(image_bytes)
         t_end_image_ext = time.time()
-        f['metadata']['duration_image_extration'] = t_end_image_ext - t_start_image_ext
+        f['metadata']['duration_image_extraction'] = t_end_image_ext - t_start_image_ext
 
         # extracted_features = {
         #     'sum_of_intensities': int(np.sum(image)),
