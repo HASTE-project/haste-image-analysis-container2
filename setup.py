@@ -5,7 +5,6 @@ setup(name='haste-image-analysis-container2',
       packages=['haste.image_analysis_container2'],
       namespace_packages=['haste'],
       install_requires=[
-          'numpy',
           'Pillow',
           'scikit-image',
           'scipy',

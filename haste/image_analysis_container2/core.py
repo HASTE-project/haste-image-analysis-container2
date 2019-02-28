@@ -1,10 +1,7 @@
-import datetime
 import logging
 import time
 
-import pymongo
 from itertools import groupby
-
 
 from haste.image_analysis_container2.azn_filenames import parse_azn_file_name
 from haste.image_analysis_container2.fileutils import creation_date
