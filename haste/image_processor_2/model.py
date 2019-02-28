@@ -3,12 +3,14 @@ import time
 import pymongo
 import scipy.stats
 
-WINDOW_LENGTH = 5
 
+class KendallTauInterestingnessModel:
 
-class FooInterestingnessModel:
-    """
-    """
+    def __init__(self, window_length):
+        """
+        :param window_length: how many images in the window for each well/color/etc
+        """
+        self.self.window_length = self.window_length
 
     def interestingness(self,
                         stream_id=None,
@@ -38,7 +40,7 @@ class FooInterestingnessModel:
         },
             sort=[('timestamp', pymongo.ASCENDING)],
             projection=['timestamp', 'metadata.extracted_features'],
-            limit=WINDOW_LENGTH
+            limit=self.window_length
         ))
 
         t_end_query = time.time()
@@ -77,7 +79,7 @@ class FooInterestingnessModel:
 
         if timestamp % 10 == 0:
             interestingness = 1
-        elif len(results) < WINDOW_LENGTH:
+        elif len(results) < self.window_length:
             interestingness = 1
 
         return {'interestingness': interestingness}
