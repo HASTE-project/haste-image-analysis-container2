@@ -9,6 +9,9 @@ notifications:
 before_install:
   - docker build --no-cache=true -t "benblamey/image_analysis_container2:latest" .
 
+install:
+  - pip install .
+
 script:
   - pytest
 
