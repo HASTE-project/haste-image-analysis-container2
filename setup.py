@@ -1,0 +1,19 @@
+
+from setuptools import setup
+
+setup(name='haste-image-processor-2',
+      version='0.10',
+      packages=['haste.image_processor_2'],
+      namespace_packages=['haste'],
+      install_requires=[
+          'numpy',
+          'Pillow',
+          'scikit-image',
+          # HarmonicIO_PE -- (not on PyPI)
+          'haste-storage-client'
+
+      ],
+      test_requires=[
+          'pytest'
+      ]
+      )
