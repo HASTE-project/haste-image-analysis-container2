@@ -5,27 +5,15 @@ import time
 import pymongo
 from itertools import groupby
 
-from haste_storage_client.core import HasteStorageClient
-
-from PIL import Image
-import io
-import numpy as np
-from skimage.feature import greycomatrix, greycoprops
-from skimage.filters import laplace
 
 from haste.image_analysis_container2.azn_filenames import parse_azn_file_name
 from haste.image_analysis_container2.fileutils import creation_date
 from haste.image_analysis_container2.image_analysis import extract_features
 
 
-# TODO: file listing, pause, warning.
-
-# TODO: dockerfile
-
-
-
-
 def process_files(files, source_dir, hsc):
+    logging.info(f'found {len(files)} during polling.')
+
     files = list(map(lambda f: {'metadata': {'original_filename': f}}, files))
 
     for f in files:
@@ -33,22 +21,15 @@ def process_files(files, source_dir, hsc):
         for k, v in parse_azn_file_name(f['metadata']['original_filename']).items():
             f['metadata'][k] = v
 
-        # Check if file already processed.
-        # TODO: eh? it shouldn't be here else
+        # Warn if file already processed:
         result = hsc.mongo_collection.find_one({
             'metadata': {
                 'original_filename': f['metadata']['original_filename']
             }
         })  # dict or None
-
         if result is not None:
             logging.error(f["metadata"][
-                              "original_filename"] + 'already in mongodb?! should have been moved? willoverwrite metadata')
-
-        #
-        # assert 'well' in f['metadata']
-        # assert 'color_channel' in f['metadata']
-        # assert 'imaging_point_number' in f['metadata']
+                              "original_filename"] + 'already in mongodb?! should have been moved? will overwrite metadata')
 
         # Load image from disk:
         f_full_path = source_dir + '/' + f['metadata']["original_filename"]
@@ -87,26 +68,10 @@ def process_files(files, source_dir, hsc):
         print(files_in_group)
 
         for f in files_in_group:
-            # TODO: add the metadata for the group to the metadata
-            # fetch the older ones as neceesary from mongodb
-            # then call the HSC to invoke the model
-
-            # interestingness model:
-            # for sum, and correlation,
-            #   kendals tau?
-            #   linear regression?
-            # then abs
-            # then sub sampling/interlacing?
-            # (note: laplaceVariance is a focus measure -- a check, not a trend)
-
-            # TODO: add a driver which moves files on disk
-
             logging.info(f'saving {f["metadata"]["original_filename"]}...')
+
             hsc.save(f['timestamp'],
                      (0, 0),
                      f['metadata']['well'],
-                     bytearray(),  # TODO
+                     bytearray(),  # empty, since we use the 'move file' storage driver.
                      f['metadata'])
-
-
-print('')

@@ -5,8 +5,9 @@ import time
 
 from haste_storage_client.core import HasteStorageClient
 
-from haste.image_analysis_container2.config import SOURCE_DIR, STREAM_ID_INITIALS, WINDOW_LENGTH, HASTE_STORAGE_CLIENT_CONFIG, \
-    STORAGE_POLICY
+from haste.image_analysis_container2.config import SOURCE_DIR, STREAM_ID_INITIALS, WINDOW_LENGTH, \
+    HASTE_STORAGE_CLIENT_CONFIG, \
+    STORAGE_POLICY, LOGGING_LEVEL
 from haste.image_analysis_container2.core import process_files
 from haste.image_analysis_container2.model import KendallTauInterestingnessModel
 

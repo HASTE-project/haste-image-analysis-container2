@@ -82,4 +82,6 @@ class KendallTauInterestingnessModel:
         elif len(results) < self.window_length:
             interestingness = 1
 
+        # TODO: add sampling/interlacing over window
+
         return {'interestingness': interestingness}
