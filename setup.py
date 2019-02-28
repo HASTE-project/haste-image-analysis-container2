@@ -9,7 +9,7 @@ setup(name='haste-image-processor-2',
           'numpy',
           'Pillow',
           'scikit-image',
-          # HarmonicIO_PE -- (not on PyPI)
+          'scipy',
           'haste-storage-client'
 
       ],
