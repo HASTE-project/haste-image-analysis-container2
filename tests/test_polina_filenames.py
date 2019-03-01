@@ -1,17 +1,6 @@
 from haste.image_analysis_container2.filenames.polina_sample_filenames import parse_polina_filename
 
 
-def __compare(filenames, golden_metadata):
-    for name in filenames:
-        metadata = parse_polina_filename(name)
-        print(metadata)
-
-        # if golden_metadata != metadata:
-        #     raise Exception('golden metadata does not match!')
-        # else:
-        #     print('metadata is match!')
-
-
 def test_polina_filenames():
     filenames = [
         '181214-KOday7-40X-H2O2-Glu_B02_s1_w12DE5D0E6-1639-40D4-8654-9A6247B4B8CD.tif',
