@@ -9,15 +9,24 @@ SOURCE_DIR = 'tests/images'
 import os
 from haste.image_analysis_container2.core import process_files
 
+import os
+
+is_travis = 'TRAVIS' in os.environ
+
 
 def test_process_files_one_batch():
+    if is_travis:
+        # test requires working mongodb (specified in HSC config file) -- skip for travis CI
+        return
+
     initials = 'deleteme'
     # TODO: where will this come from? idle gap?
     stream_id = datetime.datetime.today().strftime('%Y_%m_%d__%H_%M_%S') + '__' + initials
     # stream_id = '2018_11_08__12_34_59_from_al'
 
     model = KendallTauInterestingnessModel(5)  # window length
-    hsc = HasteStorageClient(stream_id, interestingness_model=model)
+    hsc = HasteStorageClient(stream_id,
+                             interestingness_model=model)
 
     files = os.listdir(SOURCE_DIR)
     print(files)
@@ -26,6 +35,10 @@ def test_process_files_one_batch():
 
 
 def test_process_files_multiple_batches_one_well():
+    if is_travis:
+        # test requires working mongodb (specified in HSC config file) -- skip for travis CI
+        return
+
     initials = 'deleteme'
     # TODO: where will this come from? idle gap?
     stream_id = datetime.datetime.today().strftime('%Y_%m_%d__%H_%M_%S') + '__' + initials
