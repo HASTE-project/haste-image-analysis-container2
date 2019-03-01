@@ -5,26 +5,37 @@ TARGET_DIR = '/mnt/mikro-testdata/target/'
 
 HASTE_STORAGE_CLIENT_CONFIG = {
     "haste_metadata_server": {
-        # TODO: need service name
-        # "connection_string": "mongodb://mongodb.haste.svc.cluster:27017/streams"
+        # In K8, this is the service name (since we're in the same namespace'
         "connection_string": "mongodb://mongodb:27017/streams"
+        # "connection_string": "mongodb://mongodb.haste.svc.cluster:27017/streams"
     },
     "log_level": "DEBUG",
     "targets": [
         {
-            "id": "move-to-my-dir",
+            "id": "move-to-keep",
             "class": "haste_storage_client.storage.storage.MoveToDir",
             "config": {
                 "source_dir": SOURCE_DIR,
-                "target_dir": TARGET_DIR
+                "target_dir": TARGET_DIR + 'keep/'
+            }
+        },
+        # For a PoC, trash is simply another dir:
+        {
+            "id": "move-to-trash",
+            "class": "haste_storage_client.storage.storage.MoveToDir",
+            "config": {
+                "source_dir": SOURCE_DIR,
+                "target_dir": TARGET_DIR + 'trash/'
             }
         }
     ]
 }
 
-# TODO: add 'trash' dir for PoC
-
-STORAGE_POLICY = [(0.2, 1.0, 'move-to-my-dir')]
+# intervals are closed.
+STORAGE_POLICY = [
+    (0.0, 0.199999, 'move-to-trash'),
+    (0.2, 1.0, 'move-to-my-dir'),
+]
 
 WINDOW_LENGTH = 10
 
