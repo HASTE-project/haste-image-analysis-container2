@@ -1,7 +1,7 @@
 import logging
 
-SOURCE_DIR = 'TODD'
-TARGET_DIR = 'TODO'
+SOURCE_DIR = '/mnt/mikro-testdata/source/'
+TARGET_DIR = '/mnt/mikro-testdata/target/'
 
 HASTE_STORAGE_CLIENT_CONFIG = {
     "haste_metadata_server": {
