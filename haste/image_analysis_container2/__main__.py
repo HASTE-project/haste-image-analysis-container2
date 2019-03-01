@@ -7,7 +7,7 @@ from haste_storage_client.core import HasteStorageClient
 
 from haste.image_analysis_container2.config import SOURCE_DIR, STREAM_ID_INITIALS, WINDOW_LENGTH, \
     HASTE_STORAGE_CLIENT_CONFIG, \
-    STORAGE_POLICY, LOGGING_LEVEL, LOGGING_FORMAT, LOGGING_FORMAT_DATE, LOG_DIR
+    STORAGE_POLICY, LOGGING_LEVEL, LOGGING_FORMAT, LOGGING_FORMAT_DATE, LOG_DIR, POLLING_INTERVAL_SECONDS
 from haste.image_analysis_container2.core import process_files
 from haste.image_analysis_container2.kendall_tau_model import KendallTauInterestingnessModel
 
@@ -45,7 +45,7 @@ def main():
             logging.debug(f'Listing took: {time.time() - t_listing_start} secs')
             logging.debug(f'Processing took: {time.time() - t_processing_start} secs')
 
-        pause = time.time() - t_loop_start
+        pause = (time.time() + POLLING_INTERVAL_SECONDS) - t_loop_start
         if pause < 0:
             logging.warn(f'Overran polling interval by {pause} seconds. Polling immediately.')
         else:

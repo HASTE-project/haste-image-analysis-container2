@@ -43,7 +43,7 @@ WINDOW_LENGTH = 10
 
 STREAM_ID_INITIALS = 'ola-lab'
 
-POLLING_INTERVAL_SECONDS = 10
+POLLING_INTERVAL_SECONDS = 2
 
 LOGGING_LEVEL = logging.DEBUG
 LOGGING_FORMAT = '%(asctime)s - %(threadName)s - %(levelname)s - %(message)s'
