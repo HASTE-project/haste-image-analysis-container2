@@ -16,7 +16,8 @@ _files_seen_time_before_that = []
 def process_files(files, source_dir, hsc):
     global _files_seen_last_time, _files_seen_time_before_that
 
-    logging.info(f'found {len(files)} during polling.')
+    if len(files) > 0:
+        logging.info(f'found {len(files)} during polling.')
 
     # We want to ensure files are fully written prior to processing.
     # The obvious solution is to check the last modified timestamp, but this doesn't work when say,
