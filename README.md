@@ -25,9 +25,12 @@ docker build --no-cache=true -t "benblamey/image_analysis_container2:latest" . ;
 
 To run a test:
 ```
-
+# BEWARE DELETING REAL DATA!
 rm -rf /mnt/mikro-testdata/source/**
 mkdir /mnt/mikro-testdata/source/
+
+cp -v /mnt/mikro-testdata/PolinaG-KO/181214-KOday7-40X-H2O2-Glu/2018-12-14/9/181214-KOday7-40X-H2O2-Glu_B02_s1_w12DE5D0E6-1639-40D4-8654-9A6247B4B8CD.tif /mnt/mikro-testdata/source/ 
+
 cp -v /mnt/mikro-testdata/PolinaG-KO/181214-KOday7-40X-H2O2-Glu/2018-12-14/9/* /mnt/mikro-testdata/source/ 
 ```
 

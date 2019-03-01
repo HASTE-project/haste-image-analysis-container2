@@ -46,7 +46,7 @@ def parse_polina_filename(filename):
         'extension': match.group(10),
     }
 
-    # For compatibility with AZ dataset.:
+    # For compatibility with AZ dataset:
     metadata['imaging_point_number'] = metadata['well_sample']
 
     return metadata

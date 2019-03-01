@@ -34,7 +34,7 @@ HASTE_STORAGE_CLIENT_CONFIG = {
 # intervals are closed.
 STORAGE_POLICY = [
     (0.0, 0.199999, 'move-to-trash'),
-    (0.2, 1.0, 'move-to-my-dir'),
+    (0.2, 1.0, 'move-to-keep'),
 ]
 
 WINDOW_LENGTH = 10
