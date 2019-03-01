@@ -6,7 +6,8 @@ TARGET_DIR = 'TODO'
 HASTE_STORAGE_CLIENT_CONFIG = {
     "haste_metadata_server": {
         # TODO: need service name
-        "connection_string": "mongodb://mongodb.haste.svc.cluster:27017/streams"
+        # "connection_string": "mongodb://mongodb.haste.svc.cluster:27017/streams"
+        "connection_string": "mongodb://mongodb:27017/streams"
     },
     "log_level": "DEBUG",
     "targets": [
