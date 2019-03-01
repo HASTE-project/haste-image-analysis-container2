@@ -33,6 +33,10 @@ def process_files(files, source_dir, hsc):
         f_full_path = source_dir + '/' + f['metadata']["original_filename"]
 
         f['metadata']['file_modified_time_unix'] = file_modification_time(f_full_path)
+        now = time.time()
+        logging.debug(f"{f_full_path} was last modified {f['metadata']['file_modified_time_unix']}")
+        logging.debug(f"its now {now}")
+
         if time.time() - f['metadata']['file_modified_time_unix'] < FILE_WRITE_GUARD_SECONDS:
             logging.info(
                 f'skipping {f["metadata"]["original_filename"]} because mod in {FILE_WRITE_GUARD_SECONDS}s')
