@@ -35,18 +35,20 @@ def process_files(files, source_dir, hsc):
         # Takes ~0.02 secs for a couple MB file
         t_start_image_ext = time.time()
         f['metadata']["extracted_features"] = extract_features(image_bytes)
-        t_end_image_ext = time.time()
-        f['metadata']['duration_image_extraction'] = t_end_image_ext - t_start_image_ext
-
         # extracted_features = {
         #     'sum_of_intensities': int(np.sum(image)),
         #     'correlation': __corr(image),
         #     'laplaceVariance': __laplace_variance(image)
         # }
+        t_end_image_ext = time.time()
+        f['metadata']['duration_image_extraction'] = t_end_image_ext - t_start_image_ext
 
-        f['timestamp'] = creation_date(f_full_path)
-        # TODO: (the above code is no good for testing -- since all the test files are modified at the same time
-        f['timestamp'] = f['metadata']['time_point_number']
+        if 'time_point_number' in f['metadata']:
+            # If we can get the time from the filename metadata, use it:
+            f['timestamp'] = f['metadata']['time_point_number']
+        else:
+            # this isn't much use -- since all the test files are modified at the same time
+            f['timestamp'] = creation_date(f_full_path)
 
         # (discard image bytes)
 
