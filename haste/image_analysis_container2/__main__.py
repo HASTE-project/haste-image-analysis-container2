@@ -45,7 +45,7 @@ def main():
             logging.debug(f'Listing took: {time.time() - t_listing_start} secs')
             logging.debug(f'Processing took: {time.time() - t_processing_start} secs')
 
-        pause = (time.time() + POLLING_INTERVAL_SECONDS) - t_loop_start
+        pause = (t_loop_start + POLLING_INTERVAL_SECONDS) - time.time()
         if pause < 0:
             logging.warn(f'Overran polling interval by {pause} seconds. Polling immediately.')
         else:

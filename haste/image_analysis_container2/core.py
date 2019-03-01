@@ -29,8 +29,6 @@ def process_files(files, source_dir, hsc):
     _files_seen_time_before_that = _files_seen_last_time
     _files_seen_last_time = files
 
-    # files_to_process = []
-
     for f in files_metadata:
         for k, v in parse_filename(f['metadata']['original_filename']).items():
             f['metadata'][k] = v
@@ -48,14 +46,6 @@ def process_files(files, source_dir, hsc):
         f_full_path = source_dir + '/' + f['metadata']["original_filename"]
 
         f['metadata']['file_modified_time_unix'] = file_modification_time(f_full_path)
-        # now = time.time()
-        # logging.debug(f"{f_full_path} was last modified {f['metadata']['file_modified_time_unix']}")
-        # logging.debug(f"its now {now}")
-        #
-        # if time.time() - f['metadata']['file_modified_time_unix'] < FILE_WRITE_GUARD_SECONDS:
-        #     logging.info(
-        #         f'skipping {f["metadata"]["original_filename"]} because mod in {FILE_WRITE_GUARD_SECONDS}s')
-        #     continue
 
         with open(f_full_path, mode='rb') as f_contents:  # b is important -> binary
             image_bytes = f_contents.read()
@@ -85,8 +75,6 @@ def process_files(files, source_dir, hsc):
             f['metadata']['time_point_number'] = 0
 
         # (image bytes are discarded)
-
-        # files_to_process.append(f)
 
     s = sorted(files_metadata, key=KEY_FUNC_GROUP)
     f_grped = groupby(s, key=KEY_FUNC_GROUP)

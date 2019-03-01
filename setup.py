@@ -26,8 +26,7 @@ setup(name='haste-image-analysis-container2',
           'numpy>=1.15.1',
           'scipy',
 
-          # Some EXIF issues...
-          'Pillow>=5.4.1',
+          'Pillow',
           'scikit-image',
           'haste-storage-client'
       ],
