@@ -35,21 +35,21 @@ def main():
     while True:
         t_loop_start = time.time()
 
-        logging.info('polling for files...')
+        logging.debug('polling for files...')
         t_listing_start = time.time()
         files = os.listdir(SOURCE_DIR)
         logging.debug(f'Listing took: {time.time() - t_listing_start} secs')
 
-        t_processing_start = time.time()
-        process_files(files, SOURCE_DIR, hsc)
-        logging.debug(f'Processing took: {time.time() - t_processing_start} secs')
+        if len(files) > 0:
+            t_processing_start = time.time()
+            process_files(files, SOURCE_DIR, hsc)
+            logging.debug(f'Processing took: {time.time() - t_processing_start} secs')
 
         pause = time.time() - t_loop_start
         if pause < 0:
             logging.warn(f'Overran polling interval by {pause} seconds. Polling immediately.')
         else:
             time.sleep(pause)
-
 
 
 if __name__ == '__main__':

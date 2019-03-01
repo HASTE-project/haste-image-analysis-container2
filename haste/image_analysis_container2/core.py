@@ -3,7 +3,7 @@ import time
 
 from itertools import groupby
 
-from haste.image_analysis_container2.azn_filenames import parse_azn_file_name
+from haste.image_analysis_container2.filenames.filenames import parse_filename
 from haste.image_analysis_container2.fileutils import creation_date
 from haste.image_analysis_container2.image_analysis import extract_features
 
@@ -14,8 +14,7 @@ def process_files(files, source_dir, hsc):
     files = list(map(lambda f: {'metadata': {'original_filename': f}}, files))
 
     for f in files:
-        # TODO: parse filename in ola format:
-        for k, v in parse_azn_file_name(f['metadata']['original_filename']).items():
+        for k, v in parse_filename(f['metadata']['original_filename']).items():
             f['metadata'][k] = v
 
         # Warn if file already processed:
