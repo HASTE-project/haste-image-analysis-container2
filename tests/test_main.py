@@ -6,7 +6,6 @@ from haste.image_analysis_container2.kendall_tau_model import KendallTauInterest
 
 SOURCE_DIR = 'tests/images'
 
-import os
 from haste.image_analysis_container2.core import process_files
 
 import os
