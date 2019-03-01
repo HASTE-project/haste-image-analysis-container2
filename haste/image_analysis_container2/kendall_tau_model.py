@@ -31,10 +31,13 @@ class KendallTauInterestingnessModel:
         :param mongo_collection: collection in mongoDB allowing custom queries (this is a hack - best avoided!)
         """
 
-        # Since we go in ascending timestamp order, this will get us all the data
+        # always keep the thumbnails (polina's sample)
+        if 'is_thumbnail' in metadata and metadata['is_thumbnail']:
+            return {'interestingness': 1}
 
         t_start_query = time.time()
-        # TODO: only get some fields
+
+        # Since we go in ascending timestamp order, this will get us all the data
         results = list(mongo_collection.find({
             'metadata.well': metadata['well'],
             'metadata.color_channel': metadata['color_channel'],
