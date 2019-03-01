@@ -47,7 +47,7 @@ def process_files(files, source_dir, hsc):
             # If we can get the time from the filename metadata, use it:
             f['timestamp'] = f['metadata']['time_point_number']
         else:
-            # this isn't much use -- since all the test files are modified at the same time
+            logging.debug('falling back to file modified time -- will likely be wrong for copied-in datasets')
             f['timestamp'] = creation_date(f_full_path)
 
         # (discard image bytes)
