@@ -3,20 +3,34 @@ import time
 
 from itertools import groupby
 
-from haste.image_analysis_container2.config import FILE_WRITE_GUARD_SECONDS
+# from haste.image_analysis_container2.config import FILE_WRITE_GUARD_SECONDS
 from haste.image_analysis_container2.filenames.filenames import parse_filename
 from haste.image_analysis_container2.fileutils import file_modification_time
 from haste.image_analysis_container2.image_analysis import extract_features
 from haste.image_analysis_container2.kendall_tau_model import KEY_FUNC_GROUP, KEY_FUNC_SORT
 
+_files_seen_last_time = []
+_files_seen_time_before_that = []
+
 
 def process_files(files, source_dir, hsc):
+    global _files_seen_last_time, _files_seen_time_before_that
+
     logging.info(f'found {len(files)} during polling.')
 
-    files = list(map(lambda f: {'metadata': {'original_filename': f}}, files))
-    files_to_process = []
+    # We want to ensure files are fully written prior to processing.
+    # The obvious solution is to check the last modified timestamp, but this doesn't work when say,
+    # an NFS server is used, as the clocks can be out of sync.
+    # Instead, we only process files which were seen in the previous-but-one poll.
+    # Hence, a processed file is always at least as old as the polling interval when its processed.
+    files_metadata = list(map(lambda f: {'metadata': {'original_filename': f}},
+                              filter(lambda f: f in _files_seen_time_before_that, files)))
+    _files_seen_time_before_that = _files_seen_last_time
+    _files_seen_last_time = files
 
-    for f in files:
+    # files_to_process = []
+
+    for f in files_metadata:
         for k, v in parse_filename(f['metadata']['original_filename']).items():
             f['metadata'][k] = v
 
@@ -33,14 +47,14 @@ def process_files(files, source_dir, hsc):
         f_full_path = source_dir + '/' + f['metadata']["original_filename"]
 
         f['metadata']['file_modified_time_unix'] = file_modification_time(f_full_path)
-        now = time.time()
-        logging.debug(f"{f_full_path} was last modified {f['metadata']['file_modified_time_unix']}")
-        logging.debug(f"its now {now}")
-
-        if time.time() - f['metadata']['file_modified_time_unix'] < FILE_WRITE_GUARD_SECONDS:
-            logging.info(
-                f'skipping {f["metadata"]["original_filename"]} because mod in {FILE_WRITE_GUARD_SECONDS}s')
-            continue
+        # now = time.time()
+        # logging.debug(f"{f_full_path} was last modified {f['metadata']['file_modified_time_unix']}")
+        # logging.debug(f"its now {now}")
+        #
+        # if time.time() - f['metadata']['file_modified_time_unix'] < FILE_WRITE_GUARD_SECONDS:
+        #     logging.info(
+        #         f'skipping {f["metadata"]["original_filename"]} because mod in {FILE_WRITE_GUARD_SECONDS}s')
+        #     continue
 
         with open(f_full_path, mode='rb') as f_contents:  # b is important -> binary
             image_bytes = f_contents.read()
@@ -71,9 +85,9 @@ def process_files(files, source_dir, hsc):
 
         # (image bytes are discarded)
 
-        files_to_process.append(f)
+        # files_to_process.append(f)
 
-    s = sorted(files_to_process, key=KEY_FUNC_GROUP)
+    s = sorted(files_metadata, key=KEY_FUNC_GROUP)
     f_grped = groupby(s, key=KEY_FUNC_GROUP)
 
     for k, g in f_grped:
