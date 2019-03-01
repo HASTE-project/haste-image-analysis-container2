@@ -10,7 +10,7 @@ class KendallTauInterestingnessModel:
         """
         :param window_length: how many images in the window for each well/color/etc
         """
-        self.self.window_length = self.window_length
+        self.window_length = window_length
 
     def interestingness(self,
                         stream_id=None,

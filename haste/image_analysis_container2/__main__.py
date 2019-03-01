@@ -9,7 +9,7 @@ from haste.image_analysis_container2.config import SOURCE_DIR, STREAM_ID_INITIAL
     HASTE_STORAGE_CLIENT_CONFIG, \
     STORAGE_POLICY, LOGGING_LEVEL
 from haste.image_analysis_container2.core import process_files
-from haste.image_analysis_container2.model import KendallTauInterestingnessModel
+from haste.image_analysis_container2.kendall_tau_model import KendallTauInterestingnessModel
 
 
 def main():
@@ -24,7 +24,7 @@ def main():
 
     stream_id = datetime.datetime.today().strftime('%Y_%m_%d__%H_%M_%S') + '__' + STREAM_ID_INITIALS
 
-    logging.log(f'stream_id is: {stream_id}')
+    logging.info(f'stream_id is: {stream_id}')
 
     model = KendallTauInterestingnessModel(WINDOW_LENGTH)
     hsc = HasteStorageClient(stream_id,

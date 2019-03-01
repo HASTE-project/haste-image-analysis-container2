@@ -14,4 +14,9 @@ docker build --no-cache=true -t "benblamey/image_analysis_container2:latest" .
 docker push benblamey/image_analysis_container2:latest
 ```
 
+Build + Run:
+```
+docker build --no-cache=true -t "benblamey/image_analysis_container2:latest" . ; docker run benblamey/image_analysis_container2
+```
+
 Contributors: Ben Blamey

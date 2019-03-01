@@ -2,7 +2,7 @@ import datetime
 
 from haste_storage_client.core import HasteStorageClient
 
-from haste.image_analysis_container2.model import KendallTauInterestingnessModel
+from haste.image_analysis_container2.kendall_tau_model import KendallTauInterestingnessModel
 
 SOURCE_DIR = 'tests/images'
 
