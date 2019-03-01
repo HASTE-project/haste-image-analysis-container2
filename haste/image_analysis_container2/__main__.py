@@ -39,10 +39,10 @@ def main():
         t_listing_start = time.time()
         files = os.listdir(SOURCE_DIR)
 
+        t_processing_start = time.time()
+        process_files(files, SOURCE_DIR, hsc)
         if len(files) > 0:
             logging.debug(f'Listing took: {time.time() - t_listing_start} secs')
-            t_processing_start = time.time()
-            process_files(files, SOURCE_DIR, hsc)
             logging.debug(f'Processing took: {time.time() - t_processing_start} secs')
 
         pause = time.time() - t_loop_start
