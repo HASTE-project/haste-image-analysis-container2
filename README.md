@@ -20,3 +20,11 @@ docker build --no-cache=true -t "benblamey/image_analysis_container2:latest" . ;
 ```
 
 Contributors: Ben Blamey
+
+
+
+To run a test:
+```
+mkdir /mnt/mikro-testdata/source/
+cp -v /mnt/mikro-testdata/PolinaG-KO/181214-KOday7-40X-H2O2-Glu/2018-12-14/9/* /mnt/mikro-testdata/source/ 
+```

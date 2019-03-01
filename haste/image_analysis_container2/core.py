@@ -7,8 +7,12 @@ from haste.image_analysis_container2.filenames.filenames import parse_filename
 from haste.image_analysis_container2.fileutils import creation_date
 from haste.image_analysis_container2.image_analysis import extract_features
 
+fake_time_point_number = 0
+
 
 def process_files(files, source_dir, hsc):
+    global fake_time_point_number
+
     logging.info(f'found {len(files)} during polling.')
 
     files = list(map(lambda f: {'metadata': {'original_filename': f}}, files))
@@ -49,6 +53,10 @@ def process_files(files, source_dir, hsc):
         else:
             logging.debug('falling back to file modified time -- will likely be wrong for copied-in datasets')
             f['timestamp'] = creation_date(f_full_path)
+
+            # for Polina's sample, there is no time dimension -- so as a hack, use the well sample
+            f['time_point_number'] = fake_time_point_number
+            fake_time_point_number += 1
 
         # (discard image bytes)
 
