@@ -38,7 +38,7 @@ class KendallTauInterestingnessModel:
             'metadata.color_channel': metadata['color_channel'],
             'metadata.imaging_point_number': metadata['imaging_point_number']
         },
-            sort=[('timestamp', pymongo.ASCENDING)],
+            sort=[('timestamp', pymongo.DESCENDING)], # We only the most recent images.
             projection=['timestamp', 'metadata.extracted_features'],
             limit=self.window_length
         ))
