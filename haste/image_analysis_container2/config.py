@@ -31,9 +31,10 @@ HASTE_STORAGE_CLIENT_CONFIG = {
     ]
 }
 
-# intervals are closed.
+# intervals are closed, and since we move the files, they can't overlap.
+# TODO: this is a hack
 STORAGE_POLICY = [
-    (0.0, 0.199999, 'move-to-trash'),
+    (0.0, 0.199999999, 'move-to-trash'),
     (0.2, 1.0, 'move-to-keep'),
 ]
 
@@ -50,5 +51,5 @@ FILE_WRITE_GUARD_SECONDS = 2
 LOGGING_LEVEL = logging.DEBUG
 LOGGING_FORMAT = '%(asctime)s - %(threadName)s - %(levelname)s - %(message)s'
 LOGGING_FORMAT_DATE = '%Y-%m-%d %H:%M:%S.%d3'
-
+LOG_DIR = '/mnt/mikro-testdata/logs/'
 
