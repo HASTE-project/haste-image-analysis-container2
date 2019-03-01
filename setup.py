@@ -19,7 +19,7 @@ setup(name='haste-image-analysis-container2',
           #  take_along_axis = npcompat.take_along_axis
           # E   AttributeError: module 'dask.array.numpy_compat' has no attribute 'take_along_axis'
           # .
-          # So, we require that numpy has these new functions, to avoid relying on the compat in dask.
+          # So, we require a newer numpy which has these new functions, to avoid relying on the compat in dask:
           'numpy>=1.15.1',
           'scipy',
 

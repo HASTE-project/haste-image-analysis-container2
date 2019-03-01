@@ -6,6 +6,8 @@ import scipy.stats
 
 class KendallTauInterestingnessModel:
 
+    # TODO: add indices to mongo collection on first interestingness call
+
     def __init__(self, window_length):
         """
         :param window_length: how many images in the window for each well/color/etc
@@ -71,11 +73,11 @@ class KendallTauInterestingnessModel:
         metadata['duration_interestingness_taus_calc'] = t_end_taus - t_start_taus
 
         metadata['interestingness_calcs'] = {}
-        metadata['interestingness_calcs']['kendal_tau'] = taus
+        metadata['interestingness_calcs']['kendal_taus'] = taus
 
         interestingness = max(map(lambda tau: abs(tau), taus))
 
-        metadata['interestingness_calcs']['max_of_abs'] = interestingness
+        metadata['interestingness_calcs']['raw_interestingness'] = interestingness
 
         if timestamp % 10 == 0:
             interestingness = 1
