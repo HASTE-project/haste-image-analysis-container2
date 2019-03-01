@@ -63,7 +63,7 @@ def process_files(files, source_dir, hsc):
         else:
             logging.debug('falling back to file modified time -- will likely be wrong for copied-in datasets')
             # This is the timestamp used by HASTE
-            f['timestamp'] = f['metadata']['file_creation_date']
+            f['timestamp'] = f['metadata']['file_modified_time_unix']
 
             # This is the timestamp used for the interestingness model.
             # for Polina's sample, there is no time dimension.
