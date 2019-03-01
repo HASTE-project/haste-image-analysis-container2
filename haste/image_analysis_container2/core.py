@@ -55,7 +55,7 @@ def process_files(files, source_dir, hsc):
             f['timestamp'] = creation_date(f_full_path)
 
             # for Polina's sample, there is no time dimension -- so as a hack, use the well sample
-            f['time_point_number'] = fake_time_point_number
+            f['metadata']['time_point_number'] = fake_time_point_number
             fake_time_point_number += 1
 
         # (discard image bytes)
