@@ -8,10 +8,12 @@ import re
 # '181214-KOday7-40X-H2O2-Glu_B02_s1_w2_thumb0604FB4F-9460-418C-B35D-153E066CFF68.tif',
 # '181214-KOday7-40X-H2O2-Glu_B02_s1_w39CC0188A-1F09-4EC4-AEBC-3339DEC7FEE1.tif',
 
+# "KOday7-40X-H2O2-Glu"
+# KOday7 is reagent, 40X is magnification, and everything after 40x is PlateID, but for now I think you squashing it into "note" is fine
 
 __pattern = re.compile('^'
                        + '([0-9]{2})([0-9]{2})([0-9]{2})'  # date yymmdd [1,2,3]
-                       + '-([^_]+)'  # 40X-H2O2-Glu [4] (Could merge these)
+                       + '-([^_]+)'  # 40X-H2O2-Glu [4]
                        + '_([A-Za-z]+[0-9]+)'  # Well [5]
                        + '_s([0-9]+)'  # Well Sample [6] "microscope position in the well"
                        + '_w([0-9]+)'  # Channel (color channel?) [7]
