@@ -37,10 +37,18 @@ STORAGE_POLICY = [
     (0.2, 1.0, 'move-to-keep'),
 ]
 
+# Number of elements in the window over which to apply the model.
 WINDOW_LENGTH = 10
 
 STREAM_ID_INITIALS = 'ola-lab'
 
 POLLING_INTERVAL_SECONDS = 5
 
+# Time to wait after the last modified time to incase of subsequent writes.
+FILE_WRITE_GUARD_SECONDS = 2
+
 LOGGING_LEVEL = logging.DEBUG
+LOGGING_FORMAT = '%(asctime)s - %(threadName)s - %(levelname)s - %(message)s'
+LOGGING_FORMAT_DATE = '%Y-%m-%d %H:%M:%S.%d3'
+
+

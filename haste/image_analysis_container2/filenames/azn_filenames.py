@@ -27,6 +27,7 @@ def parse_azn_file_name(filename):
         return None
 
     metadata = {
+        'filename_parse':'azn_lnp',
         'assay_plate_name': match.group(2),
         'well': match.group(3).upper(),  # e.g. A1, H12
         'time_point_number': int(match.group(4)),  # 0001 to 9999

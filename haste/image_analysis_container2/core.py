@@ -3,19 +3,18 @@ import time
 
 from itertools import groupby
 
+from haste.image_analysis_container2.config import FILE_WRITE_GUARD_SECONDS
 from haste.image_analysis_container2.filenames.filenames import parse_filename
-from haste.image_analysis_container2.fileutils import creation_date
+from haste.image_analysis_container2.fileutils import file_modification_time
 from haste.image_analysis_container2.image_analysis import extract_features
-
-fake_time_point_number = 0
+from haste.image_analysis_container2.kendall_tau_model import KEY_FUNC_GROUP, KEY_FUNC_SORT
 
 
 def process_files(files, source_dir, hsc):
-    global fake_time_point_number
-
     logging.info(f'found {len(files)} during polling.')
 
     files = list(map(lambda f: {'metadata': {'original_filename': f}}, files))
+    files_to_process = []
 
     for f in files:
         for k, v in parse_filename(f['metadata']['original_filename']).items():
@@ -28,13 +27,19 @@ def process_files(files, source_dir, hsc):
             }
         })  # dict or None
         if result is not None:
-            logging.error(f["metadata"][
-                              "original_filename"] + 'already in mongodb?! should have been moved? will overwrite metadata')
+            logging.error(f["metadata"]["original_filename"]
+                          + 'already in mongodb?! should have been moved? will overwrite metadata')
 
-        # Load image from disk:
         f_full_path = source_dir + '/' + f['metadata']["original_filename"]
-        with open(f_full_path, mode='rb') as file:  # b is important -> binary
-            image_bytes = file.read()
+
+        f['metadata']['file_modified_time_unix'] = file_modification_time(f_full_path)
+        if time.time() - f['metadata']['file_modified_time_unix'] < FILE_WRITE_GUARD_SECONDS:
+            logging.info(
+                f'skipping {f["metadata"]["original_filename"]} because mod in {FILE_WRITE_GUARD_SECONDS}s')
+            continue
+
+        with open(f_full_path, mode='rb') as f_contents:  # b is important -> binary
+            image_bytes = f_contents.read()
 
         # Takes ~0.02 secs for a couple MB file
         t_start_image_ext = time.time()
@@ -49,35 +54,32 @@ def process_files(files, source_dir, hsc):
 
         if 'time_point_number' in f['metadata']:
             # If we can get the time from the filename metadata, use it:
+            # This is the timestamp used by HASTE
             f['timestamp'] = f['metadata']['time_point_number']
         else:
             logging.debug('falling back to file modified time -- will likely be wrong for copied-in datasets')
-            f['timestamp'] = creation_date(f_full_path)
+            # This is the timestamp used by HASTE
+            f['timestamp'] = f['metadata']['file_creation_date']
 
-            # for Polina's sample, there is no time dimension -- so as a hack, use the well sample
-            f['metadata']['time_point_number'] = fake_time_point_number
-            fake_time_point_number += 1
+            # This is the timestamp used for the interestingness model.
+            # for Polina's sample, there is no time dimension.
+            f['metadata']['time_point_number'] = 0
 
-        # (discard image bytes)
+        # (image bytes are discarded)
 
-    # print(f)
+        files_to_process.append(f)
 
-    keyfunc = lambda f: (f['metadata']['well'], f['metadata']['color_channel'], f['metadata']['imaging_point_number'])
-    s = sorted(files, key=keyfunc)
-    f_grped = groupby(s, key=keyfunc)
+    s = sorted(files_to_process, key=KEY_FUNC_GROUP)
+    f_grped = groupby(s, key=KEY_FUNC_GROUP)
 
     for k, g in f_grped:
-        # print(k, list(g))
-
-        files_in_group = sorted(list(g), key=lambda f: f['metadata']['time_point_number'])
-
-        print(files_in_group)
+        files_in_group = sorted(list(g), key=KEY_FUNC_SORT)
 
         for f in files_in_group:
             logging.info(f'saving {f["metadata"]["original_filename"]}...')
 
             hsc.save(f['timestamp'],
-                     (0, 0),
+                     (0, 0),  # no notion of location in this context.
                      f['metadata']['well'],
                      bytearray(),  # empty, since we use the 'move file' storage driver.
                      f['metadata'])

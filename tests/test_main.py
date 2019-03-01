@@ -1,17 +1,13 @@
 import datetime
-
 from haste_storage_client.core import HasteStorageClient
-
 from haste.image_analysis_container2.kendall_tau_model import KendallTauInterestingnessModel
-
-SOURCE_DIR = 'tests/images'
-
 from haste.image_analysis_container2.core import process_files
-
 import os
 
+SOURCE_DIR = 'tests/images'
 is_travis = 'TRAVIS' in os.environ
 
+# These tests assume access to a mongodb -- configured in ~/.haste/
 
 def test_process_files_one_batch():
     if is_travis:

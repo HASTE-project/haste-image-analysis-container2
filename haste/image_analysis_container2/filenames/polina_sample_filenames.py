@@ -34,6 +34,7 @@ def parse_polina_filename(filename):
         return None
 
     metadata = {
+        'filename_parse':'polina',
         'date_year': int(match.group(1)),
         'date_month': int(match.group(2)),
         'date_day_of_month': int(match.group(3)),

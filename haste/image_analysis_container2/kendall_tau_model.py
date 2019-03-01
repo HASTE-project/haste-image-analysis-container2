@@ -3,6 +3,15 @@ import time
 import pymongo
 import scipy.stats
 
+# how to group the images to apply the model.
+KEY_FUNC_GROUP = lambda f: (f['metadata']['well'],
+                            f['metadata']['color_channel'],
+                            f['metadata']['imaging_point_number'])
+
+# how to sort the images.
+# process them in chronological order -- since interestingness is a function of preceding images.
+KEY_FUNC_SORT = lambda f: f['metadata']['time_point_number']
+
 
 class KendallTauInterestingnessModel:
 
@@ -43,7 +52,7 @@ class KendallTauInterestingnessModel:
             'metadata.color_channel': metadata['color_channel'],
             'metadata.imaging_point_number': metadata['imaging_point_number']
         },
-            sort=[('timestamp', pymongo.DESCENDING)], # We only the most recent images.
+            sort=[('timestamp', pymongo.DESCENDING)],  # We only the most recent images.
             projection=['timestamp', 'metadata.extracted_features'],
             limit=self.window_length
         ))
